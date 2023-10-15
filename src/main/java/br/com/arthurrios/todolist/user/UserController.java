@@ -1,5 +1,6 @@
 package br.com.arthurrios.todolist.user;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,10 @@ public class UserController {
     .hashToString(12, userModel.getPassword().toCharArray());
 
     userModel.setPassword(hashedPassword);
+    var passwordHashed = BCrypt.withDefaults()
+    .hashToString(12, userModel.getPassword().toCharArray());
+
+    userModel.setPassword(passwordHashed);
 
     var userCreated = this.userRepository.save(userModel);
     return ResponseEntity.status(HttpStatus.CREATED).body(userCreated);
